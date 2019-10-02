@@ -1,0 +1,8 @@
+<h1>Catálogo</h1>
+<ul>
+    {% for produto in object_list %}
+        <h2>{{ producto.colecao.nome }} - {{ produto.nome }}</h2>
+        <img src="{{ produto.imagem.url}}" alt="{{ produto.nome }}">
+        <p>{{ produto.descricao }}</p>
+    {% endfor %}
+</ul>
