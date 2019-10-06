@@ -1,0 +1,33 @@
+
+1 - catalogue.json& language=PT
+
+{[
+    {
+        name: 'Sentidos',
+        imgUrl: 'media/collection/img1.jpg',
+    },
+    {
+        name: 'Essencia',
+        imgUrl: 'media/collection/img2.jpg',
+    },
+    {
+        name: 'Frutis',
+        imgUrl: 'media/collection/img3.jpg',
+    },
+]}
+
+2 - collection.json& collectionId=XYZ ? language=PT
+{[
+    {
+        productTitle: 'Sentidos',
+        imgUrl: 'media/products/img1.jpg',
+    },
+    {
+        name: 'Essencia',
+        imgUrl: 'media/products/img2.jpg',
+    },
+    {
+        productTitle: 'Frutis',
+        imgUrl: 'media/products/img3.jpg',
+    },
+]}
