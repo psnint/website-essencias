@@ -56,7 +56,7 @@ ROOT_URLCONF = 'website_essencias_pwa.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'essencias_catalogo/templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'essencias_catalogo', 'frontend')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

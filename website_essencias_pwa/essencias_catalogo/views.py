@@ -10,7 +10,7 @@ def index(request):
 
 class HomePageView(ListView):
     model = Produto
-    template_name = 'essencias_catalogo/home.html'
+    template_name = 'public/main.js'
     
     def get_queryset(self):
         return Produto.objects.order_by('-data_adicao')
