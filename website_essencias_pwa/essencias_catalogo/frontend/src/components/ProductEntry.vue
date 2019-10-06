@@ -1,11 +1,13 @@
 <template>
-  <li class="productEntry__base">
-    <img class="productEntry__image" src="../assets/products/pitonados.jpg" alt="title">
-    <div class="productEntry__selected">
-      <p class="productEntry__collection">Coleção</p>
-      <p class="productEntry__collectionName">Sentidos</p>
-    </div>
-  </li>
+  <router-link to="/productDetail" class="productEntry__link">
+    <li class="productEntry__base">
+        <img class="productEntry__image" src="../assets/products/pitonados.jpg" alt="title">
+        <div class="productEntry__selected">
+          <p class="productEntry__collection">Coleção</p>
+          <p class="productEntry__collectionName">Sentidos</p>
+        </div>
+    </li>
+  </router-link>
 </template>
 
 
@@ -28,7 +30,6 @@ export default {
     &__base {
       margin: 7px;
       overflow: hidden;
-      flex: 1 0 20%;
       position: relative;
       cursor: pointer;
 
@@ -87,6 +88,12 @@ export default {
       font-weight: bold;
       font-size: 24px;
       margin: 2px 0;
+    }
+
+    &__link {
+      text-decoration: none;
+      display: block;
+      color: black;
     }
   }
 

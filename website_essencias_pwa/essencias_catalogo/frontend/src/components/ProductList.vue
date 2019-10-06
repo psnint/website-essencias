@@ -49,6 +49,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+@import "../css/default.scss";
 
   $moduleName: 'productList';
 
@@ -58,12 +59,25 @@ export default {
     }
 
     &__list {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-around;
-      padding: 0 7px;
+      // display: flex;
+      // flex-wrap: wrap;
+      // justify-content: space-around;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(50%, 1fr));
+      grid-column-gap: 7px;
       max-width: 1024px;
       margin: 0 auto;
+      padding: 0 7px;
+
+      @include breakpoint-from(mq2) {
+        grid-template-columns: repeat(auto-fit, minmax(40%, 1fr));
+      }
+      @include breakpoint-from(mq3) {
+        grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
+      }
+      @include breakpoint-from(mq4) {
+        grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
+      }
     }
   }
 
