@@ -1,9 +1,12 @@
 <template>
   <section class="productList__base">
+    <div v-if="loading">
+      Loading...
+    </div>
     <ul class="productList__list">
       <!-- <li v-for="(product, key) in products" :key="key"> -->
       <ProductEntry v-for="(product, key) in products" :key="key"
-        :title="product.title" :imgSrc="product.imgSrc"/>
+        :title="product.name" :imgSrc="product.imgUrl"/>
       <!-- </li> -->
     </ul>
   </section>
@@ -12,6 +15,7 @@
 <script>
 
 import ProductEntry from './ProductEntry.vue';
+import API_URL from '../configs.js';
 
 export default {
   name: 'ProductList',
@@ -20,28 +24,26 @@ export default {
   },
   data() {
     return {
-      products: [],
+      loading: false,
+      error: null,
+      products: null,
     };
+  },
+  created() {
+    this.requestProducts();
   },
   methods: {
     requestProducts() {
-      this.products = [
-        {
-          title: 'Product1',
-          imgSrc: 'Page-7-1.png',
-        },
-        { title: 'Product2', imgSrc: 'Page-3-1.png' },
-        { title: 'Product3', imgSrc: 'Page-3-1.png' },
-        { title: 'Product3', imgSrc: 'Page-3-1.png' },
-        { title: 'Product3', imgSrc: 'Page-3-1.png' },
-        { title: 'Product3', imgSrc: 'Page-3-1.png' },
-        { title: 'Product3', imgSrc: 'Page-3-1.png' },
-        { title: 'Product3', imgSrc: 'Page-3-1.png' },
-      ];
+      this.error = this.products = null;
+      this.loading = true
+      fetch(`${API_URL}/products`)
+        .then( res => res.json())
+        .then( res => {
+          console.log(res['catalogue']);
+          this.loading = false;
+          this.products = res['catalogue'];
+        });
     },
-  },
-  mounted() {
-    this.requestProducts();
   },
 };
 

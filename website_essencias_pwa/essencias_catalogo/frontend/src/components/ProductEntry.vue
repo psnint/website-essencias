@@ -1,10 +1,10 @@
 <template>
   <router-link to="/productDetail" class="productEntry__link">
     <li class="productEntry__base">
-        <img class="productEntry__image" src="../assets/products/pitonados.jpg" alt="title">
+        <img class="productEntry__image" :src="`http://localhost:8000/${imgSrc}`" alt="title">
         <div class="productEntry__selected">
           <p class="productEntry__collection">Coleção</p>
-          <p class="productEntry__collectionName">Sentidos</p>
+          <p class="productEntry__collectionName">{{title}}</p>
         </div>
     </li>
   </router-link>
@@ -12,12 +12,18 @@
 
 
 <script>
+
+import API_URL from '../configs.js';
+
 export default {
   name: 'ProductEntry',
   props: {
     title: String,
     imgSrc: String,
   },
+  methods: {
+    API_URL: () => {API_URL},
+  }
 };
 </script>
 
