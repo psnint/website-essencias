@@ -39,7 +39,11 @@ export default {
       font-weight: 300;
       margin: 20px 0;
       text-transform: uppercase;
-      font-size: 1.4rem;
+      font-size: 1rem;
+
+      @include breakpoint-from(mq3) {
+        font-size: 1.4rem;
+      }
     }
 
     &__image {
