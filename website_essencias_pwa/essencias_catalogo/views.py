@@ -7,6 +7,24 @@ from .models import Produto
 def index(request):
     return JsonResponse({"response": "Hello, world."})
 
+def products(request):
+    return JsonResponse({
+        'catalogue' :[
+        {
+            'name': 'Sentidos',
+            'imgUrl': 'media/collection/img1.jpg',
+        },
+        {
+            'name': 'Essencia',
+            'imgUrl': 'media/collection/img2.jpg',
+        },
+        {
+            'name': 'Frutis',
+            'imgUrl': 'media/collection/img3.jpg',
+        },
+        ],
+    })
+
 
 class HomePageView(ListView):
     model = Produto

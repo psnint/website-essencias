@@ -8,6 +8,7 @@ from . import views
 urlpatterns = [
     # path('', views.HomePageView.as_view(), name='home'),
     path('', views.index, name='home'),
+    path('products', views.products, name='products'),
 ]
 
 if settings.DEBUG: # new
