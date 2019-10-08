@@ -1,11 +1,13 @@
 <template>
   <router-link to="/productDetail" class="productEntry__link">
     <li class="productEntry__base">
+      <div class="productEntry__wrapper">
         <img class="productEntry__image" :src="`http://localhost:8000/${imgSrc}`" alt="title">
         <div class="productEntry__selected">
           <p class="productEntry__collection">Coleção</p>
           <p class="productEntry__collectionName">{{title}}</p>
         </div>
+      </div>
     </li>
   </router-link>
 </template>
@@ -23,6 +25,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+@import "../css/default";
 
   $moduleName: 'productEntry';
 
@@ -61,6 +64,10 @@ export default {
           }
         }
       }
+    }
+
+    &__wrapper {
+      @include element-ratio(1 1);
     }
 
     &__image {
