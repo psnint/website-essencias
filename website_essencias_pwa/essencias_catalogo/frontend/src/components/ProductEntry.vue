@@ -12,18 +12,12 @@
 
 
 <script>
-
-import API_URL from '../configs.js';
-
 export default {
   name: 'ProductEntry',
   props: {
     title: String,
     imgSrc: String,
   },
-  methods: {
-    API_URL: () => {API_URL},
-  }
 };
 </script>
 
@@ -59,7 +53,7 @@ export default {
         .#{$moduleName}__selected {
           opacity: 1;
           transition: opacity 300ms ease-in;
-          animation: scale-up-center 0.4s ease-in both;
+          animation: s  le-up-center 0.4s ease-in both;
 
           @keyframes scale-up-center{
             0%{transform:translateY(-50%) scale(.5)}

@@ -12,27 +12,27 @@ def products(request):
         'catalogue' :[
         {
             'name': 'Sentidos',
-            'imgUrl': 'media/imagens/toa/Page-9-7.png',
+            'imgUrl': 'media/imagens/mockCollection/mock1.png',
         },
         {
             'name': 'Essencia',
-            'imgUrl': 'media/imagens/toa/Page-7-3.png',
+            'imgUrl': 'media/imagens/mockCollection/mock2.png',
         },
         {
             'name': 'Essencia',
-            'imgUrl': 'media/imagens/toa/Page-7-3.png',
+            'imgUrl': 'media/imagens/mockCollection/mock3.png',
         },
         {
             'name': 'Essencia',
-            'imgUrl': 'media/imagens/toa/Page-7-3.png',
+            'imgUrl': 'media/imagens/mockCollection/mock1.png',
         },
         {
             'name': 'Teste',
-            'imgUrl': 'media/imagens/toa/Page-7-4.png',
+            'imgUrl': 'media/imagens/mockCollection/mock2.png',
         },
         {
             'name': 'Frutis',
-            'imgUrl': 'media/imagens/toa/Page-7-4.png',
+            'imgUrl': 'media/imagens/mockCollection/mock3.png',
         },
         ],
     })

@@ -3,11 +3,12 @@
     <div v-if="loading">
       Loading...
     </div>
+    <div v-if="error">
+      Couldn't fetch catalogue from server...
+    </div>
     <ul class="productList__list">
-      <!-- <li v-for="(product, key) in products" :key="key"> -->
       <ProductEntry v-for="(product, key) in products" :key="key"
         :title="product.name" :imgSrc="product.imgUrl"/>
-      <!-- </li> -->
     </ul>
   </section>
 </template>
@@ -15,7 +16,7 @@
 <script>
 
 import ProductEntry from './ProductEntry.vue';
-import API_URL from '../configs.js';
+import API_URL from '../configs';
 
 export default {
   name: 'ProductList',
@@ -34,14 +35,18 @@ export default {
   },
   methods: {
     requestProducts() {
-      this.error = this.products = null;
-      this.loading = true
+      this.products = null;
+      this.error = null;
+      this.loading = true;
+
       fetch(`${API_URL}/products`)
-        .then( res => res.json())
-        .then( res => {
-          console.log(res['catalogue']);
+        .then(res => res.json())
+        .then((res) => {
           this.loading = false;
-          this.products = res['catalogue'];
+          this.products = res.catalogue;
+        }).catch(() => {
+          this.loading = false;
+          this.error = true;
         });
     },
   },
@@ -61,9 +66,6 @@ export default {
     }
 
     &__list {
-      // display: flex;
-      // flex-wrap: wrap;
-      // justify-content: space-around;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(50%, 1fr));
       grid-column-gap: 7px;
