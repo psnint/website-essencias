@@ -7,8 +7,8 @@
       Couldn't fetch catalogue from server...
     </div>
     <ul class="productList__list">
-      <ProductEntry v-for="(product, key) in products" :key="key"
-        :title="product.name" :imgSrc="product.imgUrl"/>
+      <ProductEntry v-for="product in products" :key="product.pk"
+        :title="product.name" :imgSrc="product.image"/>
     </ul>
   </section>
 </template>
@@ -39,11 +39,15 @@ export default {
       this.error = null;
       this.loading = true;
 
-      fetch(`${API_URL}/products`)
+      fetch(`${API_URL}`)
         .then(res => res.json())
         .then((res) => {
           this.loading = false;
-          this.products = res.catalogue;
+          this.products = res.map((entry) => {
+            entry.fields.pk = entry.pk;
+            entry.fields.image = `media/${entry.fields.image}`;
+            return entry.fields;
+          });
         }).catch(() => {
           this.loading = false;
           this.error = true;
