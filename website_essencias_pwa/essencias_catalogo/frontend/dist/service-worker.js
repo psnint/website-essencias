@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.9c64d301a156d00c51dfcfa41f6120fa.js"
+  "/precache-manifest.543d5fcc8deef2e412223a96f070f1cb.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "fe"});
@@ -27,3 +27,5 @@ workbox.core.setCacheNameDetails({prefix: "fe"});
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
+
+workbox.routing.registerRoute(/^http:\/\/127.0.0.1:8000/, workbox.strategies.networkFirst(), 'GET');
