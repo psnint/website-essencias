@@ -6,7 +6,7 @@ def product_path(instance, filename):
 
 
 def collection_path(instance, filename):
-    return f"images/collections/{instance.nome}"
+    return f"images/collections/{instance.name}"
 
 
 class Collection(models.Model):
