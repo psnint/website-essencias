@@ -11,8 +11,9 @@ def index(request):
     return HttpResponse(data, content_type="application/json")
 
 
-def collection(request, collection_id):
+def collection(request):
     if request.method == 'GET':
+        collection_id = request.GET['collectionId']
         data = serializers.serialize('json', Collection.objects.filter(pk=collection_id))
         return HttpResponse(data, content_type="application/json")
 
