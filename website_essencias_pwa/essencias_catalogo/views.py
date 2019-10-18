@@ -11,6 +11,12 @@ def index(request):
     return HttpResponse(data, content_type="application/json")
 
 
+def collection(request, collection_id):
+    if request.method == 'GET':
+        data = serializers.serialize('json', Collection.objects.filter(pk=collection_id))
+        return HttpResponse(data, content_type="application/json")
+
+
 def products(request):
     return JsonResponse({
         'catalogue': [
@@ -40,16 +46,3 @@ def products(request):
             },
         ],
     })
-
-
-class HomePageView(ListView):
-    model = Product
-    template_name = 'public/main.js'
-
-    def get_queryset(self):
-        return Product.objects.order_by('-data_adicao')
-
-
-class DetailView(DetailView):
-    model = Product
-    template_name = 'essencias_catalogo/detail.html'

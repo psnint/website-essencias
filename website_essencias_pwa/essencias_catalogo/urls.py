@@ -9,6 +9,7 @@ urlpatterns = [
     # path('', views.HomePageView.as_view(), name='home'),
     path('', views.index, name='home'),
     path('products', views.products, name='products'),
+    path('collection&collectionId=<int:collection_id>', views.collection, name='collection')
 ]
 
 if settings.DEBUG:  # new
