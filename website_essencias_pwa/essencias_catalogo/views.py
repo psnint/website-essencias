@@ -1,8 +1,12 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, FileResponse
 from django.views.generic import ListView, DetailView
 from django.core import serializers
+
 from .models import Product, Collection
+
+import os
+import zipfile
 
 
 def index(request):
@@ -16,6 +20,43 @@ def collection(request):
         collection_id = request.GET['collectionId']
         data = serializers.serialize('json', Collection.objects.filter(pk=collection_id))
         return HttpResponse(data, content_type="application/json")
+
+
+def download_collection(request):
+    if request.method == 'GET':
+
+        # Get collection products
+        lang = request.GET['lang']
+        collection_id = request.GET['collectionId']
+        collection_products = Product.objects.filter(collection=collection_id)
+
+        # Get or create tmp dir for creating the zip file
+        tmp_dir = os.path.join('media', 'tmp')
+        os.makedirs(tmp_dir, exist_ok=True)
+
+        # Delete zipfile if it exists already
+        collection_name = getattr(Collection.objects.get(pk=collection_id), 'name_{}'.format(lang))
+        zipfile_name = '{}.zip'.format(collection_name)
+        zipfile_path = os.path.join(tmp_dir, zipfile_name)
+        if os.path.isfile(zipfile_path):
+            os.remove(zipfile_path)
+
+        # Zip images
+        with zipfile.ZipFile(zipfile_path, 'w', zipfile.ZIP_DEFLATED) as zipfile_handler:
+            for product in collection_products:
+                zipfile_handler.write(product.image.path,  # actual image file
+                                      os.path.basename(product.image.path))  # image file "path" to be zipped
+
+        # Send attachment
+        with open(zipfile_path, 'rb') as collection_zip:
+            response = HttpResponse(collection_zip, content_type='application/force-download')
+            response['Content-Disposition'] = 'attachment; filename="{}"'.format(zipfile_name)
+
+        # Delete zip file
+        if os.path.isfile(zipfile_path):
+            os.remove(zipfile_path)
+
+        return response
 
 
 def products(request):

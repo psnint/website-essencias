@@ -9,7 +9,8 @@ urlpatterns = [
     # path('', views.HomePageView.as_view(), name='home'),
     path('', views.index, name='home'),
     path('products', views.products, name='products'),
-    path('collection/', views.collection, name='collection')
+    path('collection/', views.collection, name='collection'),
+    path('downloadCollection', views.download_collection, name='download_collection')
 ]
 
 if settings.DEBUG:  # new
