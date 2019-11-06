@@ -1,5 +1,5 @@
 <template>
-  <router-link to="/productDetail" class="productEntry__link">
+  <router-link :to="`productDetail/${pk}`" class="productEntry__link">
     <li class="productEntry__base">
       <div class="productEntry__wrapper">
         <img class="productEntry__image" :src="`http://localhost:8000/${imgSrc}`" alt="title">
@@ -19,6 +19,7 @@ export default {
   props: {
     title: String,
     imgSrc: String,
+    pk: Number,
   },
 };
 </script>

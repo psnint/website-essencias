@@ -1,6 +1,7 @@
 <template>
-  <router-link to="/catalogue" class="countryButton__base">
+  <router-link :to='`${to}`' class="countryButton__base">
     <img class="countryButton__image"
+        @click="$store.commit('changeLanguage', local)"
         :src="require(`../assets/country_flags/${imgUrl}`)"
         :alt="`${local}`">
   </router-link>
@@ -12,6 +13,7 @@ export default {
   props: {
     local: String,
     imgUrl: String,
+    to: String,
   },
 };
 </script>

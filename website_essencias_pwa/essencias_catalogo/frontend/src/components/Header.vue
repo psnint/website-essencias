@@ -1,11 +1,11 @@
 
 <template>
   <header v-if="!['home'].includes($route.name)" class="header__base">
-    <button @click="$router.go(-1)" class="header__back">← Voltar</button>
+    <button @click="$router.go(-1)" class="header__back">← {{ back[$store.getters.lang] }}</button>
     <img class="header__logo" alt="Essencias Logo" src="../assets/logo-essencia.png">
     <div class="header__countryLanguage">
       <CountryButton imgUrl="pt-flag.png" local="pt"/>
-      <CountryButton imgUrl="uk-flag.png" local="uk"/>
+      <CountryButton imgUrl="uk-flag.png" local="en"/>
       <CountryButton imgUrl="fr-flag.png" local="fr"/>
     </div>
   </header>
@@ -17,6 +17,13 @@ import CountryButton from '@/components/CountryButton.vue';
 
 export default {
   name: 'Header',
+  data: () => ({
+    back: {
+      pt: 'Voltar',
+      en: 'Back',
+      fr: 'Reviens',
+    },
+  }),
   components: {
     CountryButton,
   },

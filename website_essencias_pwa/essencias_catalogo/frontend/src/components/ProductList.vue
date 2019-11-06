@@ -4,11 +4,11 @@
       Loading...
     </div>
     <div v-if="error">
-      Couldn't fetch catalogue from server...
+      Couldn't fetch list of catalogues from server...
     </div>
     <ul class="productList__list">
-      <ProductEntry v-for="product in products" :key="product.pk"
-        :title="product.name" :imgSrc="product.image"/>
+      <ProductEntry v-for="product in products" :key="product.pk" :pk="product.pk"
+        :title="product[`name_${$store.getters.lang}`]" :imgSrc="product.image"/>
     </ul>
   </section>
 </template>
@@ -38,15 +38,15 @@ export default {
       this.products = null;
       this.error = null;
       this.loading = true;
-
       fetch(`${API_URL}`)
         .then(res => res.json())
         .then((res) => {
           this.loading = false;
           this.products = res.map((entry) => {
-            entry.fields.pk = entry.pk;
-            entry.fields.image = `media/${entry.fields.image}`;
-            return entry.fields;
+            const entryFields = entry.fields;
+            entryFields.pk = entry.pk;
+            entryFields.image = `media/${entry.fields.image}`;
+            return entryFields;
           });
         }).catch(() => {
           this.loading = false;
