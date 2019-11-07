@@ -2,7 +2,7 @@
   <router-link :to="`productDetail/${pk}`" class="productEntry__link">
     <li class="productEntry__base">
       <div class="productEntry__wrapper">
-        <img class="productEntry__image" :src="`http://localhost:8000/${imgSrc}`" alt="title">
+        <img class="productEntry__image" :src="`${api_url}/${imgSrc}`" alt="title">
         <div class="productEntry__selected">
           <p class="productEntry__collection">Coleção</p>
           <p class="productEntry__collectionName">{{title}}</p>
@@ -14,6 +14,9 @@
 
 
 <script>
+
+import API_URL from '../configs';
+
 export default {
   name: 'ProductEntry',
   props: {
@@ -21,6 +24,9 @@ export default {
     imgSrc: String,
     pk: Number,
   },
+  data: () => ({
+    api_url: API_URL,
+  }),
 };
 </script>
 
