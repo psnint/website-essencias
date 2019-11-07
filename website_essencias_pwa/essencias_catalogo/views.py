@@ -7,6 +7,10 @@ from .models import Product, Collection
 
 import os
 import zipfile
+import json
+
+from django.forms.models import model_to_dict
+
 
 
 def index(request):
@@ -18,8 +22,20 @@ def index(request):
 def collection(request):
     if request.method == 'GET':
         collection_id = request.GET['collectionId']
-        data = serializers.serialize('json', Collection.objects.filter(pk=collection_id))
-        return HttpResponse(data, content_type="application/json")
+        
+        # Get collection and respective products
+        collection = Collection.objects.filter(pk=collection_id)
+        collection_products = Product.objects.filter(collection=collection_id)
+        
+        # Transform objects into a dictionary
+        collection_data = json.loads(serializers.serialize('json', collection))[0]
+        collection_products_data = json.loads(serializers.serialize('json', collection_products))
+        
+        # Append the all products information to the collection
+        collection_data['products'] = collection_products_data
+        
+        response = json.dumps(collection_data, ensure_ascii=False)
+        return HttpResponse(response, content_type="application/json")
 
 
 def download_collection(request):
