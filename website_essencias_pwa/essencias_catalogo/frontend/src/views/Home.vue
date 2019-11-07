@@ -2,9 +2,9 @@
   <div class="home__base">
     <img class="home__logo" alt="Essencias Logo" src="../assets/logo-essencia.png">
     <div class="home__countries">
-      <CountryButton imgUrl="pt-flag.png" local="pt" to='/catalogue'/>
-      <CountryButton imgUrl="uk-flag.png" local="en" to='/catalogue'/>
-      <CountryButton imgUrl="fr-flag.png" local="fr" to='/catalogue'/>
+      <CountryButton imgUrl="pt-flag.png" local="pt"/>
+      <CountryButton imgUrl="uk-flag.png" local="en"/>
+      <CountryButton imgUrl="fr-flag.png" local="fr"/>
     </div>
   </div>
 </template>

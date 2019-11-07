@@ -1,5 +1,5 @@
 <template>
-  <router-link :to='`${to}`' class="countryButton__base">
+  <router-link :to=" $route.name === 'home' ? 'catalogue' : '' " class="countryButton__base">
     <img class="countryButton__image"
         @click="$store.commit('changeLanguage', local)"
         :src="require(`../assets/country_flags/${imgUrl}`)"
