@@ -6,49 +6,70 @@
     <div v-if="error">
       Couldn't fetch list of products for this catalogue from server...
     </div>
-    <div v-if="product">
-      <h2 class="gallery__title">1 - {{ product[`title_${$store.getters.lang}`] }}</h2>
-      <img class="gallery__image" src="../assets/catalogue/Page-9-2.png" alt="title" />
+    <div v-if="products.length > 0" class="gallery__container">
+      <h2 class="gallery__title">{{
+        products[selectedProduct].fields[`name_${$store.getters.lang}`] }}
+        ({{collection[`name_${$store.getters.lang}`]}})</h2>
+      <div class="gallery__imageContainer">
+        <img class="gallery__image"
+          :src="`${API_URL}/media/${products[selectedProduct].fields.image}`"
+          :alt="products[selectedProduct].fields[`name_${$store.getters.lang}`]"
+        />
+      </div>
+
+      <ul class="gallery__list">
+        <li class="gallery__listItem"
+          v-for="(product, index) in products" :key="product.pk"
+          @click="selectedProduct=index"
+        >
+          <img
+            :src="`${API_URL}/media/${product.fields.image}`"
+            :alt="product.fields[`name_${$store.getters.lang}`]"
+          />
+        </li>
+      </ul>
+    </div>
+    <div v-else>
+      <h2>No Products</h2>
     </div>
   </div>
 </template>
 
 <script>
+import API_URL from '../configs';
 
 export default {
   name: 'Gallery',
+  props: {
+    id: {
+      type: String,
+    },
+  },
   data: () => ({
     loading: false,
     error: null,
-    product: null,
+    products: [],
+    collection: {},
+    selectedProduct: 0,
+    API_URL,
   }),
   created() {
     this.requestProducts();
   },
   methods: {
     requestProducts() {
-      this.products = null;
       this.error = null;
       this.loading = true;
-      // Replace by fetch when API is ready
-      new Promise((resolve, reject) => {
-        resolve({
-          pk: '1',
-          title_pt: 'Product Title PT',
-          title_en: 'Product Title EN',
-          title_fr: 'Product Title FR',
-          description_pt: 'Product Description PT',
-          description_en: 'Product Description EN',
-          description_fr: 'Product Description FR',
-          image: 'media/images/collections/Teste1',
+      fetch(`${API_URL}/collection/?collectionId=${this.id}`)
+        .then(res => res.json())
+        .then((res) => {
+          this.loading = false;
+          this.products = res.products;
+          this.collection = res.fields;
+        }).catch(() => {
+          this.loading = false;
+          this.error = true;
         });
-      }).then((res) => {
-        this.loading = false;
-        this.product = res;
-      }).catch(() => {
-        this.loading = false;
-        this.error = true;
-      });
     },
   },
 };
@@ -83,14 +104,48 @@ $moduleName: "gallery";
     margin: 20px 0;
     text-transform: uppercase;
     font-size: 1rem;
+    width: 90%;
 
     @include breakpoint-from(mq3) {
       font-size: 1.4rem;
     }
   }
-
-  &__image {
-    width: 90%;
+  &__imageContainer {
+    width: 60%;
+    min-height: 460px;
+    position: relative;
+    margin: auto;
   }
+  &__image {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &__container {
+    width: 100%;
+  }
+
+  &__list {
+    width: 90%;
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+  &__listItem {
+    width: 21%;
+    cursor: pointer;
+
+    img {
+      width: 100%;
+    }
+  }
+
+
 }
 </style>

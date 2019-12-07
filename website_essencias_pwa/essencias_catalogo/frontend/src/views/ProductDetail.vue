@@ -1,19 +1,17 @@
 <template>
   <div>
+    <h1></h1>
     <Gallery :id="$route.params.id"></Gallery>
   </div>
 </template>
 
 <script>
-import Gallery from '@/components/Gallery.vue';
+import Gallery from '../components/Gallery.vue';
 
 export default {
   name: 'productDetail',
   components: {
     Gallery,
-  },
-  props: {
-    id: Number,
   },
 };
 </script>
