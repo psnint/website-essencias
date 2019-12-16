@@ -13,7 +13,7 @@
 
 <script>
 
-import CountryButton from '@/components/CountryButton.vue';
+import CountryButton from './CountryButton.vue';
 
 export default {
   name: 'Header',

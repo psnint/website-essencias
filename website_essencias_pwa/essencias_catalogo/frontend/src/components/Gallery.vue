@@ -10,6 +10,16 @@
       <h2 class="gallery__title">{{
         products[selectedProduct].fields[`name_${$store.getters.lang}`] }}
         ({{collection[`name_${$store.getters.lang}`]}})</h2>
+      <div class="gallery__buttons">
+        <a class="gallery__button gallery__button--download"
+          :href="`${API_URL}/media/${products[selectedProduct].fields.image}`"
+          download>Download {{photoDownload[$store.getters.lang]}}</a>
+        <a class="gallery__button gallery__button--download"
+          :href="`${API_URL}/downloadCollection?lang=${$store.getters.lang}&collectionId=${id}`"
+        >Download {{collectionDownload[$store.getters.lang]}}</a>
+        <a class="gallery__button" @click="$router.push(({ path: '/catalogue' }))">
+          {{menuButton[$store.getters.lang]}}</a>
+      </div>
       <div class="gallery__imageContainer">
         <img class="gallery__image"
           :src="`${API_URL}/media/${products[selectedProduct].fields.image}`"
@@ -52,6 +62,21 @@ export default {
     collection: {},
     selectedProduct: 0,
     API_URL,
+    photoDownload: {
+      pt: 'Foto',
+      en: 'Photo',
+      fr: 'Image',
+    },
+    collectionDownload: {
+      pt: 'Galeria',
+      en: 'Gallery',
+      fr: 'Galerie',
+    },
+    menuButton: {
+      pt: 'Menu Inicial',
+      en: 'Home Menu',
+      fr: 'Menu d\'Accueil',
+    },
   }),
   created() {
     this.requestProducts();
@@ -143,6 +168,36 @@ $moduleName: "gallery";
 
     img {
       width: 100%;
+    }
+  }
+
+  &__buttons {
+    position: absolute;
+    right: -100px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__button {
+    background-color: #d9ab2b;
+    font-size: 13px;
+    border-radius: 15px;
+    color: white;
+    cursor: pointer;
+    text-transform: uppercase;
+    padding: 10px 0;
+    width: 180px;
+    text-decoration: none;
+
+    &--download {
+      background: white;
+      color: #d9ab2b;
+      border-color: #d9ab2b;
+      margin-bottom: 10px;
+
+    }
+    &:last-of-type {
+      margin-top: 20px;
     }
   }
 
