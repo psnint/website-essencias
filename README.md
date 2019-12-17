@@ -11,4 +11,6 @@
 
 `$ pip install django-pwa`
 
+`$ pip install corsheaders`
+
 `$ python manage.py migrate`

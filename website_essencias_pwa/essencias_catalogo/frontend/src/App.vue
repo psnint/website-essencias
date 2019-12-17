@@ -25,6 +25,7 @@ export default {
 @import 'normalize-scss';
 @include normalize();
 @import url('https://fonts.googleapis.com/css?family=Arimo:400,700&display=swap');
+@import "./css/default.scss";
 
 .app {
   position: absolute;
@@ -42,7 +43,7 @@ export default {
     left: 0;
     bottom: 0;
     right: 0;
-    position: absolute;
+    position: fixed;
     z-index: -1;
   }
 }

@@ -1,0 +1,64 @@
+$grid-breakpoints: (
+    mq1: 0,
+    mq2: 480px,
+    mq3: 768px,
+    mq4: 1024px,
+    mq5: 1280px,
+    mq6: 1440px,
+);
+
+@function breakpoint-min($name, $breakpoints: $grid-breakpoints) {
+    $min: map-get($breakpoints, $name);
+    @return if($min != 0, $min, null);
+}
+
+@function breakpoint-next($name, $breakpoints: $grid-breakpoints, $breakpoint-names: map-keys($breakpoints)) {
+    $n: index($breakpoint-names, $name);
+    @return if($n != null and $n < length($breakpoint-names), nth($breakpoint-names, $n + 1), null);
+}
+
+@function breakpoint-max($name, $breakpoints: $grid-breakpoints) {
+    $next: breakpoint-next($name, $breakpoints);
+    @return if($next, breakpoint-min($next, $breakpoints) - .02, null);
+}
+
+// Makes the @content apply to the given breakpoint and wider.
+// eg: @include breakpoint-from(mq6)
+@mixin breakpoint-from($name, $breakpoints: $grid-breakpoints) {
+    $min: breakpoint-min($name, $breakpoints);
+    @if $min {
+        @media (min-width: $min) {
+            @content;
+        }
+    } @else {
+        @content;
+    }
+}
+
+// Makes the @content apply to the given breakpoint and narrower.
+// eg: @include breakpoint-to(mq6)
+@mixin breakpoint-to($name, $breakpoints: $grid-breakpoints) {
+    $max: breakpoint-max($name, $breakpoints);
+    @if $max {
+        @media (max-width: $max) {
+            @content;
+        }
+    } @else {
+        @content;
+    }
+}
+
+@mixin breakpoint-between($name1, $name2, $breakpoints: $grid-breakpoints) {
+    $min: breakpoint-min($name1, $breakpoints);
+    $max: breakpoint-min($name2, $breakpoints) - 1;
+
+    @if $min {
+        @media (min-width: $min) and (max-width: $max) {
+            @content;
+        }
+    } @else {
+        @media (max-width: $max) {
+            @content;
+        }
+    }
+}

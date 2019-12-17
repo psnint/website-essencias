@@ -1,26 +1,38 @@
 <template>
-  <li class="productEntry__base">
-    <img class="productEntry__image" src="../assets/products/pitonados.jpg" alt="title">
-    <div class="productEntry__selected">
-      <p class="productEntry__collection">Coleção</p>
-      <p class="productEntry__collectionName">Sentidos</p>
-    </div>
-  </li>
+  <router-link :to="`productDetail/${pk}`" class="productEntry__link">
+    <li class="productEntry__base">
+      <div class="productEntry__wrapper">
+        <img class="productEntry__image" :src="`${api_url}/${imgSrc}`" alt="title">
+        <div class="productEntry__selected">
+          <p class="productEntry__collection">Coleção</p>
+          <p class="productEntry__collectionName">{{title}}</p>
+        </div>
+      </div>
+    </li>
+  </router-link>
 </template>
 
 
 <script>
+
+import API_URL from '../configs';
+
 export default {
   name: 'ProductEntry',
   props: {
     title: String,
     imgSrc: String,
+    pk: Number,
   },
+  data: () => ({
+    api_url: API_URL,
+  }),
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+@import "../css/default";
 
   $moduleName: 'productEntry';
 
@@ -28,7 +40,6 @@ export default {
     &__base {
       margin: 7px;
       overflow: hidden;
-      flex: 1 0 20%;
       position: relative;
       cursor: pointer;
 
@@ -52,7 +63,7 @@ export default {
         .#{$moduleName}__selected {
           opacity: 1;
           transition: opacity 300ms ease-in;
-          animation: scale-up-center 0.4s ease-in both;
+          animation: s  le-up-center 0.4s ease-in both;
 
           @keyframes scale-up-center{
             0%{transform:translateY(-50%) scale(.5)}
@@ -60,6 +71,10 @@ export default {
           }
         }
       }
+    }
+
+    &__wrapper {
+      @include element-ratio(1 1);
     }
 
     &__image {
@@ -87,6 +102,12 @@ export default {
       font-weight: bold;
       font-size: 24px;
       margin: 2px 0;
+    }
+
+    &__link {
+      text-decoration: none;
+      display: block;
+      color: black;
     }
   }
 
