@@ -1,3 +1,3 @@
-const API_URL = `http://${window.location.hostname}:8081`;
+const API_URL = `http://${window.location.hostname}:54321`;
 
 export default API_URL;
