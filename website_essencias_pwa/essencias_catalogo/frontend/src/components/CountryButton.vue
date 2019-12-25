@@ -20,12 +20,17 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+  @import "../css/default.scss";
 
   $moduleName: 'countryButton';
 
   .#{$moduleName} {
     &__base {
       width: 27%;
+      @include breakpoint-to(mq2) {
+        margin: 0 2%;
+        width: 100%;
+      }
     }
 
     &__image {

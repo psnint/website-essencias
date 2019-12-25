@@ -31,6 +31,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  @import "../css/default.scss";
+
   $moduleName: 'header';
 
   .#{$moduleName} {
@@ -45,17 +47,24 @@ export default {
     &__back {
       background-color: #d9ab2b;
       position: absolute;
-      width: 100px;
-      left: 60px;
+      left: 3%;
+      width: 25%;
       top: 50%;
       transform: translateY(-50%);
-      height: 36px;
+      height: 30px;
       color: white;
       text-transform: uppercase;
       border-radius: 15px;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 10px;
       font-weight: bold;
+
+      @include breakpoint-from(mq2) {
+          left: 60px;
+          width: 100px;
+          font-size: 14px;
+          height: 36px;
+      }
     }
 
     &__logo {
@@ -64,16 +73,27 @@ export default {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+      @include breakpoint-to(mq2) {
+        width: 30%;
+        max-height: 161px;
+        height: auto;
+        max-width: 98px;
+      }
     }
 
     &__countryLanguage {
-      width: 120px;
+      width: 25%;
       position: absolute;
-      right: 60px;
+      right: 3%;
       display: flex;
       justify-content: space-evenly;
       top: 50%;
       transform: translateY(-50%);
+
+      @include breakpoint-from(mq2) {
+        width: 120px;
+        right: 60px;;
+      }
     }
   }
 
