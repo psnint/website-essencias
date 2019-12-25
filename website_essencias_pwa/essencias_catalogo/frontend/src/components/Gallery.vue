@@ -140,6 +140,9 @@ $moduleName: "gallery";
     min-height: 460px;
     position: relative;
     margin: auto;
+    @include breakpoint-to(mq3) {
+      min-height: 60vw;
+    }
   }
   &__image {
     width: 100%;
@@ -176,6 +179,18 @@ $moduleName: "gallery";
     right: -100px;
     display: flex;
     flex-direction: column;
+
+    @include breakpoint-to(mq3) {
+      position: relative;
+      margin: auto;
+      display: flex;
+      width: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: row;
+      justify-content: space-evenly;
+      flex-wrap: wrap;
+    }
   }
 
   &__button {
@@ -193,11 +208,20 @@ $moduleName: "gallery";
       background: white;
       color: #d9ab2b;
       border-color: #d9ab2b;
-      margin-bottom: 10px;
+
+      @include breakpoint-from(mq4) {
+        margin-bottom: 10px;
+      }
 
     }
     &:last-of-type {
-      margin-top: 20px;
+      @include breakpoint-from(mq4) {
+        margin-top: 20px;
+      }
+    }
+
+    @include breakpoint-to(mq3) {
+      margin-bottom: 10px;
     }
   }
 
