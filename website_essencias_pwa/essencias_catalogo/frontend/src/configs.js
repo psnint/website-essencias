@@ -1,3 +1,3 @@
-const API_URL = `${window.location.protocol}//${window.location.hostname}:54321`;
+const API_URL = `${window.location.protocol}//catalogo-backend.essenciasdeportugal.pt/`;
 
 export default API_URL;
