@@ -1,3 +1,3 @@
-const API_URL = `https://catalogo-backend.essenciasdeportugal.pt/`;
+const API_URL = 'https://essenciasdeportugal.pt:42333/';
 
 export default API_URL;
