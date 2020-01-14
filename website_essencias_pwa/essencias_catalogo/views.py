@@ -15,8 +15,9 @@ from django.forms.models import model_to_dict
 
 def index(request):
     data = serializers.serialize('json', Collection.objects.all())
+    response = HttpResponse(data, content_type="application/json")
 
-    return HttpResponse(data, content_type="application/json")
+    return response
 
 
 def collection(request):

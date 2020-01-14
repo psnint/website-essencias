@@ -2,11 +2,11 @@ from django.db import models
 
 
 def product_path(instance, filename):
-    return f"images/{instance.collection.name_pt}/{filename}"
+    return f"images/collections/{instance.collection.name_pt}/products/{filename}"
 
 
 def collection_path(instance, filename):
-    return f"images/collections/{instance.name_pt}"
+    return f"images/collections/{instance.name_pt}/{filename}"
 
 
 class Collection(models.Model):
