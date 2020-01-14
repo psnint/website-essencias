@@ -11,7 +11,8 @@ urlpatterns = [
     path('products', views.products, name='products'),
     path('collection/', views.collection, name='collection'),
     path('downloadCollection', views.download_collection, name='download_collection')
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-if settings.DEBUG:  # new
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# if settings.DEBUG:  # new
+#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
