@@ -117,13 +117,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+LOGS_DIR = os.path.join(BASE_DIR, 'logs')
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': True,
+    'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
-            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+            'format': '%(levelname)s %(asctime)s %(module)s %(message)s'
         },
         'simple': {
             'format': '%(levelname)s %(message)s'
@@ -134,10 +134,23 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
         },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'formatter': 'verbose', 
+            'filename': os.path.join(LOGS_DIR, 'django-log.log'),
+            'maxBytes': 500 * 1024,  # 500 MB
+            'backupCount': 5  # keep only 5 log files
+        }
     },
     'loggers': {
         'werkzeug': {
-            'handlers': ['console'],
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'django': {
+            'handlers': ['console', 'file'],
             'level': 'DEBUG',
             'propagate': True,
         },
