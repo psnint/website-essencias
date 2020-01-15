@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse, FileResponse
 from django.views.generic import ListView, DetailView
 from django.core import serializers
 
-from .models import Product, Collection
+from .models import Product, Collection, ProductImage
 
 import os
 import zipfile
@@ -11,6 +11,11 @@ import json
 
 from django.forms.models import model_to_dict
 
+
+def __get_product_images(product_pk):
+    product_images_objects = ProductImage.objects.filter(product=product_pk)
+    product_images = [obj.image for obj in product_images_objects]
+    return product_images
 
 
 def index(request):
@@ -28,6 +33,7 @@ def collection(request):
         collection = Collection.objects.filter(pk=collection_id)
         collection_products = Product.objects.filter(collection=collection_id)
         
+        
         # Transform objects into a dictionary
         collection_data = json.loads(serializers.serialize('json', collection))[0]
         collection_products_data = json.loads(serializers.serialize('json', collection_products))
@@ -35,6 +41,10 @@ def collection(request):
         # Append the all products information to the collection
         collection_data['products'] = collection_products_data
         
+        for product in collection_data['products']:
+            # Get image paths only
+            product['images'] = [img.url for img in __get_product_images(product['pk'])]
+
         response = json.dumps(collection_data, ensure_ascii=False)
         return HttpResponse(response, content_type="application/json")
 
@@ -61,8 +71,12 @@ def download_collection(request):
         # Zip images
         with zipfile.ZipFile(zipfile_path, 'w', zipfile.ZIP_DEFLATED) as zipfile_handler:
             for product in collection_products:
-                zipfile_handler.write(product.image.path,  # actual image file
-                                      os.path.basename(product.image.path))  # image file "path" to be zipped
+                product_images = __get_product_images(product.pk)
+
+                # Write each image of the product to the zip file
+                for product_image in product_images:
+                    zipfile_handler.write(product_image.path,
+                                         os.path.basename(product_image.path))
 
         # Send attachment
         with open(zipfile_path, 'rb') as collection_zip:
@@ -72,7 +86,6 @@ def download_collection(request):
         # Delete zip file
         if os.path.isfile(zipfile_path):
             os.remove(zipfile_path)
-
         return response
 
 
