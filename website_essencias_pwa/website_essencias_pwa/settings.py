@@ -89,7 +89,7 @@ WSGI_APPLICATION = 'website_essencias_pwa.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'longlife_catalogo',
+        'NAME': 'longlife_catalogo_dev',
         'USER': 'longlife_catalog',
         'PASSWORD': os.environ['DJANGO_CATALOGO_DB_PW'],
         'HOST': 'localhost',
