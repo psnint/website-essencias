@@ -1,10 +1,10 @@
 <template>
-  <router-link :to="`productDetail/${pk}`" class="productEntry__link">
+  <router-link :to="link" class="productEntry__link">
     <li class="productEntry__base">
       <div class="productEntry__wrapper">
         <img class="productEntry__image" :src="`${api_url}/${imgSrc}`" alt="title">
         <div class="productEntry__selected">
-          <p class="productEntry__collection">Coleção</p>
+          <p class="productEntry__collection">{{ isProduct ? '' : 'Coleção'}}</p>
           <p class="productEntry__collectionName">{{title}}</p>
         </div>
       </div>
@@ -23,6 +23,9 @@ export default {
     title: String,
     imgSrc: String,
     pk: Number,
+    link: String,
+    isProduct: Boolean,
+    productImages: Array,
   },
   data: () => ({
     api_url: API_URL,

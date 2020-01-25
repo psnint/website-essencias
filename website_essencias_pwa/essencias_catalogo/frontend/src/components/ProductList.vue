@@ -6,9 +6,12 @@
     <div v-if="error">
       Couldn't fetch list of catalogues from server...
     </div>
-    <ul class="productList__list">
+    <ul v-if="!collectionId || collectionExists" class="productList__list">
       <ProductEntry v-for="product in products" :key="product.pk" :pk="product.pk"
-        :title="product[`name_${$store.getters.lang}`]" :imgSrc="product.image"/>
+              :title="product[`name_${$store.getters.lang}`]" :imgSrc="product.image"
+              :link="`${!collectionId ? 'collection' : '/productDetail'}/${product.pk}`"
+              :isProduct="Boolean(collectionId)" :productImages="product.productImages"
+              />
     </ul>
   </section>
 </template>
@@ -20,6 +23,7 @@ import API_URL from '../configs';
 
 export default {
   name: 'ProductList',
+  props: ['collectionId'],
   components: {
     ProductEntry,
   },
@@ -27,31 +31,57 @@ export default {
     return {
       loading: false,
       error: null,
-      products: null,
+      // products: null,
     };
   },
   created() {
     this.requestProducts();
   },
+  computed: {
+    products() {
+      return !this.collectionId
+        ? this.$store.getters.catalogue
+        : this.$store.getters.collection(this.collectionId);
+    },
+    collectionExists() {
+      return this.$store.getters.collectionExists(this.collectionId);
+    },
+  },
   methods: {
     requestProducts() {
-      this.products = null;
       this.error = null;
       this.loading = true;
-      fetch(`${API_URL}`)
-        .then(res => res.json())
-        .then((res) => {
+      // catalogue view
+      if (!this.collectionId) {
+        // if catalogs not fetched yet
+        if (this.products.length < 1) {
+          fetch(`${API_URL}`)
+            .then(res => res.json())
+            .then((res) => {
+              this.loading = false;
+              this.$store.commit('updateCatalogue', res);
+            }).catch(() => {
+              this.loading = false;
+              this.error = true;
+            });
+        } else {
           this.loading = false;
-          this.products = res.map((entry) => {
-            const entryFields = entry.fields;
-            entryFields.pk = entry.pk;
-            entryFields.image = `media/${entry.fields.image}`;
-            return entryFields;
+        }
+      // collection view
+      } else if (!this.collectionExists) {
+        fetch(`${API_URL}/collection/?collectionId=${this.collectionId}`)
+          .then(res => res.json())
+          .then((res) => {
+            this.loading = false;
+            this.$store.commit('appendCollection', res);
+          }).catch((err) => {
+            this.loading = false;
+            this.error = true;
+            throw new Error(err);
           });
-        }).catch(() => {
-          this.loading = false;
-          this.error = true;
-        });
+      } else {
+        this.loading = false;
+      }
     },
   },
 };
