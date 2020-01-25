@@ -6,35 +6,37 @@
     <div v-if="error">
       Couldn't fetch list of products for this catalogue from server...
     </div>
-    <div v-if="products.length > 0" class="gallery__container">
+    <div v-if="products.images.length > 0" class="gallery__container">
       <h2 class="gallery__title">{{
-        products[selectedProduct].fields[`name_${$store.getters.lang}`] }}
-        ({{collection[`name_${$store.getters.lang}`]}})</h2>
+        products.fields[`name_${$store.getters.lang}`] }}
+        ({{collection.fields[`name_${$store.getters.lang}`]}})
+        </h2>
       <div class="gallery__buttons">
         <a class="gallery__button gallery__button--download"
-          :href="`${API_URL}/media/${products[selectedProduct].fields.image}`"
+          :href="`${API_URL}/${products.images[selectedProduct]}`"
           download>Download {{photoDownload[$store.getters.lang]}}</a>
         <a class="gallery__button gallery__button--download"
-          :href="`${API_URL}/downloadCollection?lang=${$store.getters.lang}&collectionId=${id}`"
+          :href="`${API_URL}/downloadCollection?lang=${
+            $store.getters.lang}&collectionId=${collection.pk}`"
         >Download {{collectionDownload[$store.getters.lang]}}</a>
         <a class="gallery__button" @click="$router.push(({ path: '/catalogue' }))">
           {{menuButton[$store.getters.lang]}}</a>
       </div>
       <div class="gallery__imageContainer">
         <img class="gallery__image"
-          :src="`${API_URL}/media/${products[selectedProduct].fields.image}`"
-          :alt="products[selectedProduct].fields[`name_${$store.getters.lang}`]"
+          :src="`${API_URL}/${products.images[selectedProduct]}`"
+          :alt="products.fields[`name_${$store.getters.lang}`]"
         />
       </div>
 
       <ul class="gallery__list">
         <li class="gallery__listItem"
-          v-for="(product, index) in products" :key="product.pk"
+          v-for="(product, index) in products.images" :key="index"
           @click="selectedProduct=index"
         >
           <img
-            :src="`${API_URL}/media/${product.fields.image}`"
-            :alt="product.fields[`name_${$store.getters.lang}`]"
+            :src="`${API_URL}/${product}`"
+            :alt="products.fields[`name_${$store.getters.lang}`]"
           />
         </li>
       </ul>
@@ -58,8 +60,6 @@ export default {
   data: () => ({
     loading: false,
     error: null,
-    products: [],
-    collection: {},
     selectedProduct: 0,
     API_URL,
     photoDownload: {
@@ -78,25 +78,34 @@ export default {
       fr: 'Menu d\'Accueil',
     },
   }),
-  created() {
-    this.requestProducts();
-  },
-  methods: {
-    requestProducts() {
-      this.error = null;
-      this.loading = true;
-      fetch(`${API_URL}/collection/?collectionId=${this.id}`)
-        .then(res => res.json())
-        .then((res) => {
-          this.loading = false;
-          this.products = res.products;
-          this.collection = res.fields;
-        }).catch(() => {
-          this.loading = false;
-          this.error = true;
-        });
+  computed: {
+    products() {
+      return this.$store.getters.getProductById(this.id);
+    },
+    collection() {
+      return this.$store.getters.getCollectionByProductId(this.id);
     },
   },
+  // created() {
+  //   this.requestProducts();
+  // },
+  // methods: {
+  // requestProducts() {
+  //   // TODO:  mudar isto para o request de cada produto
+  //   this.error = null;
+  //   this.loading = true;
+  //   fetch(`${API_URL}/collection/?collectionId=${this.id}`)
+  //     .then(res => res.json())
+  //     .then((res) => {
+  //       this.loading = false;
+  //       this.products = res.products;
+  //       this.collection = res.fields;
+  //     }).catch(() => {
+  //       this.loading = false;
+  //       this.error = true;
+  //     });
+  // },
+  // },
 };
 
 </script>
