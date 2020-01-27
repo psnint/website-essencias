@@ -6,7 +6,7 @@
     <div v-if="error">
       Couldn't fetch list of products for this catalogue from server...
     </div>
-    <div v-if="products.images.length > 0" class="gallery__container">
+    <div v-if="collection && products && products.images.length > 0" class="gallery__container">
       <h2 class="gallery__title">{{
         products.fields[`name_${$store.getters.lang}`] }}
         ({{collection.fields[`name_${$store.getters.lang}`]}})
@@ -40,9 +40,6 @@
           />
         </li>
       </ul>
-    </div>
-    <div v-else>
-      <h2>No Products</h2>
     </div>
   </div>
 </template>
@@ -86,26 +83,25 @@ export default {
       return this.$store.getters.getCollectionByProductId(this.id);
     },
   },
-  // created() {
-  //   this.requestProducts();
-  // },
-  // methods: {
-  // requestProducts() {
-  //   // TODO:  mudar isto para o request de cada produto
-  //   this.error = null;
-  //   this.loading = true;
-  //   fetch(`${API_URL}/collection/?collectionId=${this.id}`)
-  //     .then(res => res.json())
-  //     .then((res) => {
-  //       this.loading = false;
-  //       this.products = res.products;
-  //       this.collection = res.fields;
-  //     }).catch(() => {
-  //       this.loading = false;
-  //       this.error = true;
-  //     });
-  // },
-  // },
+  created() {
+    this.requestProducts();
+  },
+  methods: {
+    requestProducts() {
+      if (!this.collection) {
+        fetch(`${API_URL}/product_collection?productId=${this.id}`)
+          .then(res => res.json())
+          .then((res) => {
+            this.loading = false;
+            this.$store.commit('appendCollection', res);
+          }).catch((err) => {
+            this.loading = false;
+            this.error = true;
+            throw new Error(err);
+          });
+      }
+    },
+  },
 };
 
 </script>

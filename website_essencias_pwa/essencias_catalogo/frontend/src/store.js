@@ -68,7 +68,7 @@ export default new Vuex.Store({
     },
     getCollectionByProductId: state => (id) => {
       let col;
-      const keys = Object.keys(state.collections);
+      const keys = state.collections ? Object.keys(state.collections) : [];
       for (let i = 0; i < keys.length; i += 1) {
         const collection = state.collections[keys[i]];
         const { products } = collection;
