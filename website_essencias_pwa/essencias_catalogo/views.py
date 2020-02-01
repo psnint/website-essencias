@@ -14,7 +14,7 @@ from django.forms.models import model_to_dict
 
 def __get_product_images(product_pk):
     product_images_objects = ProductImage.objects.filter(product=product_pk)
-    product_images = [obj.image for obj in product_images_objects]
+    product_images = [obj for obj in product_images_objects]
     return product_images
 
 
@@ -25,28 +25,30 @@ def index(request):
     return response
 
 
+def __get_collection_and_products(collection_id):
+    # Get collection and respective products
+    collection = Collection.objects.filter(pk=collection_id)
+    collection_products = Product.objects.filter(collection=collection_id)
+
+    # Transform objects into a dictionary
+    collection_data = json.loads(serializers.serialize('json', collection))[0]
+    collection_products_data = json.loads(serializers.serialize('json', collection_products))
+
+    # Append the all products information to the collection
+    collection_data['products'] = collection_products_data
+
+    for product in collection_data['products']:
+        # Get image paths only
+        product['images'] = [{'id': img.id, 'url': img.image.url} for img in __get_product_images(product['pk'])]
+
+    response = json.dumps(collection_data, ensure_ascii=False)
+    return HttpResponse(response, content_type="application/json")
+
+
 def collection(request):
     if request.method == 'GET':
         collection_id = request.GET['collectionId']
-        
-        # Get collection and respective products
-        collection = Collection.objects.filter(pk=collection_id)
-        collection_products = Product.objects.filter(collection=collection_id)
-        
-        
-        # Transform objects into a dictionary
-        collection_data = json.loads(serializers.serialize('json', collection))[0]
-        collection_products_data = json.loads(serializers.serialize('json', collection_products))
-        
-        # Append the all products information to the collection
-        collection_data['products'] = collection_products_data
-        
-        for product in collection_data['products']:
-            # Get image paths only
-            product['images'] = [img.url for img in __get_product_images(product['pk'])]
-
-        response = json.dumps(collection_data, ensure_ascii=False)
-        return HttpResponse(response, content_type="application/json")
+        return __get_collection_and_products(collection_id)
 
 
 def download_collection(request):
@@ -75,8 +77,8 @@ def download_collection(request):
 
                 # Write each image of the product to the zip file
                 for product_image in product_images:
-                    zipfile_handler.write(product_image.path,
-                                         os.path.basename(product_image.path))
+                    zipfile_handler.write(product_image.image.path,
+                                          os.path.basename(product_image.image.path))
 
         # Send attachment
         with open(zipfile_path, 'rb') as collection_zip:
@@ -87,6 +89,26 @@ def download_collection(request):
         if os.path.isfile(zipfile_path):
             os.remove(zipfile_path)
         return response
+
+
+def download_product(request):
+    if request.method == 'GET':
+        product_id = request.GET['productId']
+        product_image_index = int(request.GET['productImage'])
+
+        product_image = ProductImage.objects.filter(product=product_id)[product_image_index]
+
+        response = HttpResponse(product_image.image, content_type='application/force-download')
+        response['Content-Disposition'] = 'attachment; filename={}'.format(os.path.basename(product_image.image.path))
+        return response
+
+
+def product_collection(request):
+    if request.method == 'GET':
+        product_id = request.GET['productId']
+        product = Product.objects.filter(pk=product_id)[0]
+        collection_id = product.collection.id
+        return __get_collection_and_products(collection_id)
 
 
 def products(request):
