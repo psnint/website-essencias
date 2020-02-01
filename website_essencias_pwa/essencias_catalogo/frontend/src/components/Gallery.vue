@@ -13,7 +13,8 @@
         </h2>
       <div class="gallery__buttons">
         <a class="gallery__button gallery__button--download"
-          :href="`${API_URL}/${products.images[selectedProduct]}`"
+          :href="`${API_URL}/downloadProduct?productId=${
+            id}&productImage=${selectedProduct}`"
           download>Download {{photoDownload[$store.getters.lang]}}</a>
         <a class="gallery__button gallery__button--download"
           :href="`${API_URL}/downloadCollection?lang=${
@@ -24,7 +25,7 @@
       </div>
       <div class="gallery__imageContainer">
         <img class="gallery__image"
-          :src="`${API_URL}/${products.images[selectedProduct]}`"
+          :src="`${API_URL}/${products.images[selectedProduct].url}`"
           :alt="products.fields[`name_${$store.getters.lang}`]"
         />
       </div>
@@ -35,8 +36,8 @@
           @click="selectedProduct=index"
         >
           <img
-            :src="`${API_URL}/${product}`"
-            :alt="products.fields[`name_${$store.getters.lang}`]"
+            :src="`${API_URL}/${product.url}`"
+            :alt="products.fields[`name_${$store.getters.lang}`].url"
           />
         </li>
       </ul>

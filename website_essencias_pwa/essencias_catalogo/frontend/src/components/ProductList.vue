@@ -8,7 +8,8 @@
     </div>
     <ul v-if="!collectionId || collectionExists" class="productList__list">
       <ProductEntry v-for="product in products" :key="product.pk" :pk="product.pk"
-              :title="product[`name_${$store.getters.lang}`]" :imgSrc="product.image"
+              :title="product[`name_${$store.getters.lang}`]" :imgSrc="`${!collectionId ?
+                product.image : product.productImages[0].url}`"
               :link="`${!collectionId ? 'collection' : '/productDetail'}/${product.pk}`"
               :isProduct="Boolean(collectionId)" :productImages="product.productImages"
               />
