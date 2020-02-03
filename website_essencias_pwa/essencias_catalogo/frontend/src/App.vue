@@ -34,10 +34,11 @@ export default {
 
   &::after {
     content: "";
-    background-image: url("./assets/background.jpg");
+    // background-image: url("./assets/background.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    background-color: white;
     opacity: 0.5;
     top: 0;
     left: 0;

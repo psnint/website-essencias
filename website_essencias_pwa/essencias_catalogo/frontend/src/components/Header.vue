@@ -2,7 +2,7 @@
 <template>
   <header v-if="!['home'].includes($route.name)" class="header__base">
     <button @click="$router.go(-1)" class="header__back">← {{ back[$store.getters.lang] }}</button>
-    <img class="header__logo" alt="Essencias Logo" src="../assets/logo-essencia.png">
+    <img class="header__logo" alt="Essencias Logo" src="../assets/logo.png">
     <div class="header__countryLanguage">
       <CountryButton imgUrl="pt-flag.png" local="pt"/>
       <CountryButton imgUrl="uk-flag.png" local="en"/>
@@ -45,7 +45,7 @@ export default {
     }
 
     &__back {
-      background-color: #d9ab2b;
+      background-color: #BAAC83;
       position: absolute;
       left: 3%;
       width: 25%;
