@@ -28,6 +28,22 @@ self.__precacheManifest = [
     "url": "/index.html"
   },
   {
+    "revision": "08836763915f70a93cc45d516bc7dee8",
+    "url": "/android-icon-36x36.png"
+  },
+  {
+    "revision": "74ad562d445f214321ca0233a3e45dd4",
+    "url": "/android-icon-48x48.png"
+  },
+  {
+    "revision": "72498f107f0c4a0f32fd17e0b352d219",
+    "url": "/android-icon-72x72.png"
+  },
+  {
+    "revision": "64a83cdbc4faf48545c6c4b289e73b05",
+    "url": "/android-icon-96x96.png"
+  },
+  {
     "revision": "b6216d61c03e6ce0c9aea6ca7808f7ca",
     "url": "/robots.txt"
   }
