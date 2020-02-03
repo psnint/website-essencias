@@ -200,7 +200,7 @@ $moduleName: "gallery";
   }
 
   &__button {
-    background-color: #d9ab2b;
+    background-color: #BAAC83;
     font-size: 13px;
     border-radius: 15px;
     color: white;
@@ -212,8 +212,9 @@ $moduleName: "gallery";
 
     &--download {
       background: white;
-      color: #d9ab2b;
-      border-color: #d9ab2b;
+      color: #BAAC83;
+      border-color: #BAAC83;
+      border: solid 1px;
 
       @include breakpoint-from(mq4) {
         margin-bottom: 10px;

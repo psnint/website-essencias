@@ -1,6 +1,6 @@
 <template>
   <div class="home__base">
-    <img class="home__logo" alt="Essencias Logo" src="../assets/logo-essencia.png">
+    <img class="home__logo" alt="Essencias Logo" src="../assets/logo.png">
     <div class="home__countries">
       <CountryButton imgUrl="pt-flag.png" local="pt"/>
       <CountryButton imgUrl="uk-flag.png" local="en"/>
@@ -26,6 +26,7 @@ export default {
   .#{$moduleName} {
     &__logo {
       margin-top: 7vh;
+      max-width: 172px;
     }
 
     &__countries {
