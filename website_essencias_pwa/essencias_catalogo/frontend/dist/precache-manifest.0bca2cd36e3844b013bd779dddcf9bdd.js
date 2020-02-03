@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "cf7e58877329706280e2",
-    "url": "/css/app.e2527f38.css"
+    "revision": "c23a2ee31f2709f9edd7",
+    "url": "/css/app.136b9e53.css"
   },
   {
-    "revision": "cf7e58877329706280e2",
-    "url": "/js/app.486ba1ad.js"
+    "revision": "c23a2ee31f2709f9edd7",
+    "url": "/js/app.7d6269c0.js"
   },
   {
     "revision": "e8177b0ae7b48c7c4b2b",
@@ -20,15 +20,11 @@ self.__precacheManifest = [
     "url": "/img/uk-flag.b68fdf60.png"
   },
   {
-    "revision": "6c8f247e406c696424c163ef653f23b4",
-    "url": "/img/logo-essencia.6c8f247e.png"
+    "revision": "a2f7596d0383d4f562af23b35ba2da17",
+    "url": "/img/logo.a2f7596d.png"
   },
   {
-    "revision": "c7461e213a0a2cc76ad19539e27c2c18",
-    "url": "/img/background.c7461e21.jpg"
-  },
-  {
-    "revision": "a29589eb2e49c034cb2a58236e8dee3b",
+    "revision": "0c3ab2accb880cf379d858c1cbfd37bc",
     "url": "/index.html"
   },
   {
