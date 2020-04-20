@@ -1,6 +1,6 @@
 <template>
   <div class="collection__base">
-    <ProductList :collectionId="$route.params.id"></ProductList>
+    <ProductList :isCollection="true" :collectionId="$route.params.id"></ProductList>
   </div>
 </template>
 

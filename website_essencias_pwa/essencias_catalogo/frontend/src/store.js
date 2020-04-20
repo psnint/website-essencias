@@ -43,14 +43,17 @@ export default new Vuex.Store({
     // eslint-disable-next-line
     collection: state => (id) => {
       return (!state.collections || (state.collections && !(id in state.collections)))
-        ? []
-        : state.collections[id].products.map((entry) => {
-          const entryFields = entry.fields;
-          entryFields.pk = entry.pk;
-          entryFields.image = `${entry.images[0]}`;
-          entryFields.productImages = entry.images;
-          return entryFields;
-        });
+        ? {}
+        : {
+          ...state.collections[id],
+          products: state.collections[id].products.map((entry) => {
+            const entryFields = entry.fields;
+            entryFields.pk = entry.pk;
+            entryFields.image = `${entry.images[0]}`;
+            entryFields.productImages = entry.images;
+            return entryFields;
+          }),
+        };
     },
     collectionExists: state => id => Boolean(state.collections) && id in state.collections,
     getProductById: state => (id) => {

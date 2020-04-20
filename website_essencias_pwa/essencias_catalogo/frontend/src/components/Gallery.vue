@@ -11,6 +11,9 @@
         products.fields[`name_${$store.getters.lang}`] }}
         ({{collection.fields[`name_${$store.getters.lang}`]}})
         </h2>
+        <h3 class="gallery__desc">
+          {{products.fields[`description_${$store.getters.lang}`] }}
+        </h3>
       <div class="gallery__buttons">
         <a class="gallery__button gallery__button--download"
           :href="`${API_URL}/downloadProduct?productId=${
@@ -20,6 +23,10 @@
           :href="`${API_URL}/downloadCollection?lang=${
             $store.getters.lang}&collectionId=${collection.pk}`"
         >Download {{collectionDownload[$store.getters.lang]}}</a>
+        <a class="gallery__button gallery__button--download"
+          :href="`${API_URL}/downloadGallery?lang=${
+            $store.getters.lang}&collectionId=${collection.pk}`"
+        >Download {{collectionGallery[$store.getters.lang]}}</a>
         <a class="gallery__button" @click="$router.push(({ path: '/catalogue' }))">
           {{menuButton[$store.getters.lang]}}</a>
       </div>
@@ -66,6 +73,11 @@ export default {
       fr: 'Image',
     },
     collectionDownload: {
+      pt: 'Coleção',
+      en: 'Collection',
+      fr: 'Collection',
+    },
+    collectionGallery: {
       pt: 'Galeria',
       en: 'Gallery',
       fr: 'Galerie',
@@ -127,6 +139,23 @@ $moduleName: "gallery";
     text-align: center;
     width: 80%;
     margin: auto;
+  }
+
+  &__desc {
+    margin: 0 auto;
+    text-align: center;
+    width: 90%;
+    font-size: .9rem;
+    color: #000;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    font-weight: 300;
+
+    text-align: justify;
+    font-style: italic;
+    font-size: 1rem;
+    max-width: 700px;
+
   }
 
   &__title {
@@ -209,15 +238,30 @@ $moduleName: "gallery";
     padding: 10px 0;
     width: 180px;
     text-decoration: none;
+    transition: all .2s ease-in-out;
+    border: solid 1px white;
+
+    &:hover {
+      color: #BAAC83;
+      background: white;
+      border: solid 1px #BAAC83;
+    }
 
     &--download {
       background: white;
       color: #BAAC83;
       border-color: #BAAC83;
       border: solid 1px;
+      transition: all .2s ease-in-out;
 
       @include breakpoint-from(mq4) {
         margin-bottom: 10px;
+      }
+
+      &:hover {
+        color: white;
+        border-color: #BAAC83;
+        background: #BAAC83;
       }
 
     }

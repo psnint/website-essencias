@@ -6,14 +6,18 @@
     <div v-if="error">
       Couldn't fetch list of catalogues from server...
     </div>
-    <ul v-if="!collectionId || collectionExists" class="productList__list">
-      <ProductEntry v-for="product in products" :key="product.pk" :pk="product.pk"
-              :title="product[`name_${$store.getters.lang}`]" :imgSrc="`${!collectionId ?
-                product.image : product.productImages[0].url}`"
-              :link="`${!collectionId ? 'collection' : '/productDetail'}/${product.pk}`"
-              :isProduct="Boolean(collectionId)" :productImages="product.productImages"
-              />
-    </ul>
+    <div v-if="!collectionId || collectionExists" >
+      <h2 v-if="isCollection" class="productList__title">{{title}}</h2>
+      <h2 v-if="isCollection" class="productList__desc">{{description}}</h2>
+      <ul class="productList__list">
+        <ProductEntry v-for="product in products" :key="product.pk" :pk="product.pk"
+                :title="product[`name_${$store.getters.lang}`]" :imgSrc="`${!collectionId ?
+                  product.image : product.productImages[0].url}`"
+                :link="`${!collectionId ? 'collection' : '/productDetail'}/${product.pk}`"
+                :isProduct="Boolean(collectionId)" :productImages="product.productImages"
+                />
+      </ul>
+    </div>
   </section>
 </template>
 
@@ -24,7 +28,7 @@ import API_URL from '../configs';
 
 export default {
   name: 'ProductList',
-  props: ['collectionId'],
+  props: ['collectionId', 'isCollection'],
   components: {
     ProductEntry,
   },
@@ -42,7 +46,17 @@ export default {
     products() {
       return !this.collectionId
         ? this.$store.getters.catalogue
-        : this.$store.getters.collection(this.collectionId);
+        : this.$store.getters.collection(this.collectionId).products;
+    },
+    title() {
+      return this.isCollection
+        ? this.$store.getters.collection(this.collectionId).fields[`name_${this.$store.getters.lang}`]
+        : '';
+    },
+    description() {
+      return this.isCollection
+        ? this.$store.getters.collection(this.collectionId).fields[`description_${this.$store.getters.lang}`]
+        : '';
     },
     collectionExists() {
       return this.$store.getters.collectionExists(this.collectionId);
@@ -98,6 +112,36 @@ export default {
   .#{$moduleName} {
     &__base {
 
+    }
+
+    &__desc {
+      margin: 0 auto;
+      text-align: center;
+      width: 90%;
+      font-size: .9rem;
+      color: #000;
+      padding-top: 10px;
+      padding-bottom: 20px;
+
+      font-weight: 300;
+
+      text-align: justify;
+      font-style: italic;
+      font-size: 1rem;
+      max-width: 700px;
+    }
+
+    &__title {
+      color: #000;
+      font-weight: 300;
+      margin: 20px auto;
+      text-transform: uppercase;
+      font-size: 1rem;
+      width: 90%;
+
+      @include breakpoint-from(mq3) {
+        font-size: 1.4rem;
+      }
     }
 
     &__list {
