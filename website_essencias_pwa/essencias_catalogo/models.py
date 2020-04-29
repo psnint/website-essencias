@@ -38,8 +38,6 @@ class Collection(models.Model):
     class Meta:
         verbose_name_plural = "Collections"
 
-   
-
 
 class Product(models.Model):
     name_pt = models.CharField(max_length=100)
@@ -54,6 +52,7 @@ class Product(models.Model):
 
     add_date = models.DateTimeField(auto_now_add=True)
     # image = models.ImageField(upload_to=product_path)
+
     def __str__(self):
         return self.name_pt
 
@@ -67,7 +66,7 @@ class ProductImage(models.Model):
 
     image = models.ImageField(upload_to=product_path)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
-    
+
     def __str__(self):
         return self.product.name_pt + " (" + ntpath.basename(self.image.path) + ")"
 

@@ -52,6 +52,7 @@ def collection(request):
 
 
 def download_collection(request):
+    """Downloads all images from all the products of a given collection."""
     if request.method == 'GET':
 
         # Get collection products
@@ -91,7 +92,47 @@ def download_collection(request):
         return response
 
 
+def download_gallery(request):
+    """Downloads all product images from a given product."""
+    if request.method == 'GET':
+        product_id = request.GET['productId']
+        lang = request.GET['lang']
+        product = Product.objects.get(pk=product_id)
+
+        # Get or create tmp dir for creating the zip file
+        tmp_dir = os.path.join('media', 'tmp')
+        os.makedirs(tmp_dir, exist_ok=True)
+
+        # Delete zipfile if it exists already
+        product_name = getattr(product, 'name_{}'.format(lang))
+        zipfile_name = '{}.zip'.format(product_name)
+        zipfile_path = os.path.join(tmp_dir, zipfile_name)
+        if os.path.isfile(zipfile_path):
+            os.remove(zipfile_path)
+
+        # Zip images
+        with zipfile.ZipFile(zipfile_path, 'w', zipfile.ZIP_DEFLATED) as zipfile_handler:
+            product_images = __get_product_images(product_id)
+
+            # Write each image of the product to the zip file
+            for product_image in product_images:
+                zipfile_handler.write(product_image.image.path,
+                                      os.path.basename(product_image.image.path))
+
+        # Send attachment
+        with open(zipfile_path, 'rb') as product_zip:
+            response = HttpResponse(product_zip, content_type='application/force-download')
+            response['Content-Disposition'] = 'attachment; filename="{}"'.format(zipfile_name)
+
+        # Delete zip file
+        if os.path.isfile(zipfile_path):
+            os.remove(zipfile_path)
+
+        return response
+
+
 def download_product(request):
+    """Downloads a (single) given image from a given product."""
     if request.method == 'GET':
         product_id = request.GET['productId']
         product_image_index = int(request.GET['productImage'])

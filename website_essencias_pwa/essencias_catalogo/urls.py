@@ -13,6 +13,7 @@ urlpatterns = [
     path('collection/', views.collection, name='collection'),
     path('downloadCollection', views.download_collection, name='download_collection'),
     path('downloadProduct', views.download_product, name='download_product'),
+    path('downloadGallery', views.download_gallery, name='download_gallery'),
     path('product_collection', views.product_collection, name='product_collection')
 ]
 
