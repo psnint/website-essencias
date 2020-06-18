@@ -25,7 +25,7 @@
         >Download {{collectionDownload[$store.getters.lang]}}</a>
         <a class="gallery__button gallery__button--download"
           :href="`${API_URL}/downloadGallery?lang=${
-            $store.getters.lang}&productId=${collection.pk}`"
+            $store.getters.lang}&productId=${id}`"
         >Download {{collectionGallery[$store.getters.lang]}}</a>
         <a class="gallery__button" @click="$router.push(({ path: '/catalogue' }))">
           {{menuButton[$store.getters.lang]}}</a>
